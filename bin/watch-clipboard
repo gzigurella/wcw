@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
+exec 9>"$runtime_dir/clipboard-toast-watch.lock"
+flock -n 9 || exit 0
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+exec wl-paste --watch "$script_dir/notify-copied"

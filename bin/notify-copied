@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# wl-paste --watch supplies the clipboard on stdin. Discard it without reading,
+# storing, or displaying its contents.
+cat >/dev/null
+
+# Coalesce rapid clipboard updates into one short, private toast.
+exec notify-send \
+  --app-name='Clipboard' \
+  --expire-time=1000 \
+  --hint=string:x-canonical-private-synchronous:clipboard-copy \
+  'Copied to clipboard'
